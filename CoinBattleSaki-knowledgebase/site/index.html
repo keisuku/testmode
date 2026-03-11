@@ -1,0 +1,1351 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CoinBattleSaki Knowledge Base</title>
+  <style>/* CoinBattleSaki Knowledge Base - Notion風UI */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans JP", sans-serif;
+  background: #f7f6f3;
+  color: #37352f;
+  line-height: 1.6;
+}
+
+.app {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 260px;
+  background: #f7f6f3;
+  border-right: 1px solid #e3e2de;
+  padding: 16px;
+  overflow-y: auto;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+}
+
+.logo {
+  font-size: 16px;
+  font-weight: 700;
+  padding: 8px 0 16px;
+  color: #37352f;
+  letter-spacing: -0.02em;
+}
+
+.search-box {
+  margin-bottom: 16px;
+}
+
+.search-box input {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #e3e2de;
+  border-radius: 6px;
+  font-size: 14px;
+  background: #fff;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.search-box input:focus {
+  border-color: #2eaadc;
+}
+
+nav ul {
+  list-style: none;
+}
+
+nav ul li {
+  margin-bottom: 2px;
+}
+
+.sidebar-link {
+  display: block;
+  padding: 6px 10px;
+  color: #37352f;
+  text-decoration: none;
+  border-radius: 4px;
+  font-size: 14px;
+  transition: background 0.15s;
+}
+
+.sidebar-link:hover {
+  background: #ebebea;
+}
+
+.sidebar-link.active {
+  background: #e3e2de;
+  font-weight: 600;
+}
+
+.tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  padding: 2px 10px 6px;
+}
+
+.tag {
+  font-size: 11px;
+  background: #e3e2de;
+  color: #6b6b6b;
+  padding: 1px 6px;
+  border-radius: 3px;
+}
+
+/* Main content */
+.main-content {
+  flex: 1;
+  margin-left: 260px;
+  padding: 40px 80px;
+  max-width: 900px;
+}
+
+.welcome {
+  text-align: center;
+  padding: 80px 0;
+  color: #9b9a97;
+}
+
+.welcome h1 {
+  font-size: 28px;
+  margin-bottom: 12px;
+  color: #37352f;
+}
+
+/* Page meta */
+.page-meta {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+  font-size: 12px;
+  color: #9b9a97;
+}
+
+.status {
+  padding: 2px 8px;
+  border-radius: 3px;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 11px;
+}
+
+.status-stable { background: #dbeddb; color: #2d6a2e; }
+.status-wip    { background: #fdecc8; color: #9a6700; }
+.status-draft  { background: #e3e2de; color: #6b6b6b; }
+
+/* Content typography */
+.page-content h1 {
+  font-size: 2em;
+  font-weight: 700;
+  margin: 0.8em 0 0.4em;
+  line-height: 1.2;
+}
+
+.page-content h2 {
+  font-size: 1.5em;
+  font-weight: 600;
+  margin: 1.2em 0 0.4em;
+  padding-top: 0.6em;
+  border-top: 1px solid #e3e2de;
+}
+
+.page-content h3 {
+  font-size: 1.2em;
+  font-weight: 600;
+  margin: 1em 0 0.3em;
+  color: #37352f;
+}
+
+.page-content p {
+  margin: 0.5em 0;
+}
+
+.page-content ul, .page-content ol {
+  margin: 0.5em 0 0.5em 1.5em;
+}
+
+.page-content li {
+  margin: 0.25em 0;
+}
+
+.page-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1em 0;
+  font-size: 14px;
+}
+
+.page-content th, .page-content td {
+  border: 1px solid #e3e2de;
+  padding: 8px 12px;
+  text-align: left;
+}
+
+.page-content th {
+  background: #f7f6f3;
+  font-weight: 600;
+}
+
+.page-content code {
+  background: #f7f6f3;
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-size: 0.9em;
+  font-family: "SFMono-Regular", "Consolas", monospace;
+}
+
+.page-content pre {
+  background: #f7f6f3;
+  padding: 16px;
+  border-radius: 6px;
+  overflow-x: auto;
+  margin: 1em 0;
+}
+
+.page-content pre code {
+  background: none;
+  padding: 0;
+}
+
+.page-content hr {
+  border: none;
+  border-top: 1px solid #e3e2de;
+  margin: 1.5em 0;
+}
+
+.page-content blockquote {
+  border-left: 3px solid #e3e2de;
+  padding-left: 16px;
+  color: #6b6b6b;
+  margin: 1em 0;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 100%;
+    position: relative;
+    border-right: none;
+    border-bottom: 1px solid #e3e2de;
+  }
+  .main-content {
+    margin-left: 0;
+    padding: 20px;
+  }
+  .app {
+    flex-direction: column;
+  }
+}
+</style>
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <h1 class="logo">CoinBattleSaki</h1>
+      <div class="search-box">
+        <input type="text" id="search-input" placeholder="Search..." />
+      </div>
+      <nav>
+        <ul id="sidebar-list">
+          <li><a href="#" data-page="knowledge-characters" class="sidebar-link">キャラクター一覧</a>
+     <span class="tag-list"><span class="tag">characters</span><span class="tag">design</span><span class="tag">metadata</span></span></li>
+<li><a href="#" data-page="knowledge-prompts-claude_update" class="sidebar-link">Claude 更新テンプレート</a>
+     <span class="tag-list"><span class="tag">prompt</span><span class="tag">template</span><span class="tag">automation</span></span></li>
+<li><a href="#" data-page="knowledge-prompts-content_template" class="sidebar-link">コンテンツテンプレート</a>
+     <span class="tag-list"><span class="tag">template</span><span class="tag">format</span><span class="tag">guide</span></span></li>
+<li><a href="#" data-page="knowledge-saki-info" class="sidebar-link">CoinBattleSaki プロジェクト総合情報</a>
+     <span class="tag-list"><span class="tag">overview</span><span class="tag">core</span><span class="tag">project</span><span class="tag">coinbattlesaki</span></span></li>
+<li><a href="#" data-page="knowledge-systems" class="sidebar-link">システム設計</a>
+     <span class="tag-list"><span class="tag">system</span><span class="tag">architecture</span><span class="tag">automation</span></span></li>
+<li><a href="#" data-page="knowledge-timeline" class="sidebar-link">タイムライン</a>
+     <span class="tag-list"><span class="tag">timeline</span><span class="tag">progress</span><span class="tag">milestone</span></span></li>
+<li><a href="#" data-page="knowledge-trading_system" class="sidebar-link">トレーディングシステム</a>
+     <span class="tag-list"><span class="tag">trading</span><span class="tag">hft</span><span class="tag">bot</span><span class="tag">futures</span><span class="tag">crypto</span></span></li>
+<li><a href="#" data-page="knowledge-world" class="sidebar-link">世界観設定</a>
+     <span class="tag-list"><span class="tag">world</span><span class="tag">setting</span><span class="tag">stage</span><span class="tag">lore</span></span></li>
+<li><a href="#" data-page="docs-deploy" class="sidebar-link">デプロイ手順</a>
+     <span class="tag-list"><span class="tag">deploy</span><span class="tag">hosting</span><span class="tag">ci</span></span></li>
+<li><a href="#" data-page="docs-design" class="sidebar-link">設計ドキュメント</a>
+     <span class="tag-list"><span class="tag">design</span><span class="tag">architecture</span><span class="tag">spec</span></span></li>
+<li><a href="#" data-page="docs-roadmap" class="sidebar-link">ロードマップ</a>
+     <span class="tag-list"><span class="tag">roadmap</span><span class="tag">plan</span><span class="tag">milestone</span></span></li>
+        </ul>
+      </nav>
+    </aside>
+    <main class="main-content" id="main-content">
+      <div class="welcome" id="welcome">
+        <h1>CoinBattleSaki Knowledge Base</h1>
+        <p>左のサイドバーからページを選択してください。</p>
+      </div>
+      <section id="page-knowledge-characters" class="page-content" style="display:none;">
+      <div class="page-meta">
+        <span class="status status-wip">wip</span>
+        <span class="updated">Updated: 2026-03-11</span>
+        <span class="author">Author: claude</span>
+      </div>
+      <h1>キャラクター — 狐（女性）を中心としたバトラー群</h1>
+<h2>最短結論</h2>
+<p>狐の女性キャラを軸に、各キャラにトレード戦略・時間軸・ロールを紐づける。メタデータ管理で拡張性を確保。</p>
+<hr>
+<h2>キャラクター設計方針</h2>
+<ul>
+<li><strong>狐は女性イメージ</strong> で統一</li>
+<li>各キャラに短いメタデータを付与: 性別 / 時間軸 / イメージ / ロール</li>
+<li>AI生成画像で外見を自動生成</li>
+<li>キャラクターはトレード戦略のアバターとして機能</li>
+</ul>
+<hr>
+<h2>主要キャラクター</h2>
+<h3>雷狐（Raikō）</h3>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>値</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>性別</td>
+<td>女性</td>
+</tr>
+<tr>
+<td>時間軸</td>
+<td>1分〜5分</td>
+</tr>
+<tr>
+<td>イメージ</td>
+<td>細身・長手・切れ長の顔</td>
+</tr>
+<tr>
+<td>ロール</td>
+<td>スキャルパー / 電撃トレーダー</td>
+</tr>
+<tr>
+<td>特徴</td>
+<td>超短期で一瞬の隙を突く</td>
+</tr>
+</tbody>
+</table>
+<h3>霧島 一郎（Kirishima Ichiro）</h3>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>値</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>性別</td>
+<td>男性</td>
+</tr>
+<tr>
+<td>時間軸</td>
+<td>1分以下（ティック単位）</td>
+</tr>
+<tr>
+<td>イメージ</td>
+<td>HFT EMPEROR</td>
+</tr>
+<tr>
+<td>ロール</td>
+<td>高頻度取引の帝王</td>
+</tr>
+<tr>
+<td>特徴</td>
+<td>マシンのように正確な執行</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>キャラクターテンプレート</h2>
+<p>新キャラ追加時は以下のフォーマットで記載:</p>
+<pre><code class="language-markdown">### キャラ名（ローマ字）
+
+| 項目 | 値 |
+|------|-----|
+| 性別 | |
+| 時間軸 | |
+| イメージ | |
+| ロール | |
+| 特徴 | |
+</code></pre>
+<hr>
+<h2>今後の追加予定</h2>
+<ul>
+<li>中期戦略型キャラクター（15分〜1時間足）</li>
+<li>ボスキャラクター（特殊イベント用）</li>
+<li>サポートキャラクター（分析・情報提供役）</li>
+<li>各キャラのAI生成立ち絵・表情差分</li>
+</ul>
+
+    </section>
+<section id="page-knowledge-prompts-claude_update" class="page-content" style="display:none;">
+      <div class="page-meta">
+        <span class="status status-stable">stable</span>
+        <span class="updated">Updated: 2026-03-11</span>
+        <span class="author">Author: claude</span>
+      </div>
+      <h1>Claude 更新テンプレート — 1回コピペで更新を依頼する</h1>
+<h2>最短結論</h2>
+<p>以下のテンプレをコピペして Claude に渡すだけで、ナレッジベースを更新できる。</p>
+<hr>
+<h2>更新テンプレート（コピペ用）</h2>
+<pre><code>## ナレッジ更新依頼
+
+### 1. 要請（1行）
+（例: world.md を最新の価格データで更新して）
+
+### 2. 対象ファイル
+（例: knowledge/world.md）
+
+### 3. 変更内容（要点3つ）
+1.
+2.
+3.
+
+### 4. 出力形式
+（ diff / full file / 該当セクションのみ ）
+
+### 5. コミットメッセージ
+（例: &quot;Update world.md: add new stage Shanghai&quot;）
+</code></pre>
+<hr>
+<h2>使い方</h2>
+<ol>
+<li>上のテンプレをコピー</li>
+<li>各項目を埋める</li>
+<li>Claude に渡す</li>
+<li>Claude が対象ファイルを更新し、Git コミットまで行う</li>
+</ol>
+<hr>
+<h2>応用例</h2>
+<h3>キャラクター追加</h3>
+<pre><code>## ナレッジ更新依頼
+
+### 1. 要請
+characters.md に新キャラ「白狐（Byakko）」を追加して
+
+### 2. 対象ファイル
+knowledge/characters.md
+
+### 3. 変更内容
+1. 白狐のメタデータ（性別:女性、時間軸:15分、ロール:中期トレンドフォロワー）
+2. キャラ説明文（俳句圧縮スタイル）
+3. related ファイルの更新
+
+### 4. 出力形式
+full file
+
+### 5. コミットメッセージ
+&quot;Add character: Byakko (白狐) - mid-term trend follower&quot;
+</code></pre>
+<h3>ステージ追加</h3>
+<pre><code>## ナレッジ更新依頼
+
+### 1. 要請
+world.md に上海ステージを追加して
+
+### 2. 対象ファイル
+knowledge/world.md
+
+### 3. 変更内容
+1. 上海ステージの設定（テーマ・雰囲気・時間軸）
+2. ステージ例セクションに追加
+3. 演出の特殊要素
+
+### 4. 出力形式
+diff
+
+### 5. コミットメッセージ
+&quot;Add stage: Shanghai financial district&quot;
+</code></pre>
+
+    </section>
+<section id="page-knowledge-prompts-content_template" class="page-content" style="display:none;">
+      <div class="page-meta">
+        <span class="status status-stable">stable</span>
+        <span class="updated">Updated: 2026-03-11</span>
+        <span class="author">Author: claude</span>
+      </div>
+      <h1>コンテンツテンプレート — 新規Markdownファイルのひな形</h1>
+<h2>最短結論</h2>
+<p>新しいナレッジファイルを作成する際はこのテンプレートに従う。俳句圧縮スタイルを厳守。</p>
+<hr>
+<h2>テンプレート</h2>
+<pre><code class="language-markdown">---
+title: &quot;タイトル&quot;
+tags: [&quot;tag1&quot;, &quot;tag2&quot;]
+status: &quot;draft&quot;
+updated: &quot;YYYY-MM-DD&quot;
+author: &quot;claude&quot;
+related: [&quot;related-file.md&quot;]
+---
+
+# タイトル — サブタイトル（1行で内容を要約）
+
+## 最短結論
+
+（1〜2文で結論を述べる。これだけ読めば要点が分かるように。）
+
+---
+
+## 大見出し1
+
+### 中見出し
+
+- 要点1
+- 要点2
+- 要点3
+
+## 大見出し2
+
+### 中見出し
+
+- 要点
+</code></pre>
+<hr>
+<h2>フォーマットルール</h2>
+<h3>俳句圧縮スタイル</h3>
+<ol>
+<li><strong>最短結論</strong>（1行）を冒頭に置く</li>
+<li><strong>大見出し</strong> → <strong>中見出し</strong> → <strong>要点（箇条書き）</strong> の階層</li>
+<li>冗長な説明は避け、要点を箇条書きで圧縮</li>
+<li>表は情報の比較・一覧に積極的に使う</li>
+</ol>
+<h3>Frontmatter 必須フィールド</h3>
+<table>
+<thead>
+<tr>
+<th>フィールド</th>
+<th>説明</th>
+<th>例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>title</td>
+<td>ファイルのタイトル</td>
+<td>“世界観設定”</td>
+</tr>
+<tr>
+<td>tags</td>
+<td>タグ配列</td>
+<td>[“world”, “setting”]</td>
+</tr>
+<tr>
+<td>status</td>
+<td>draft / wip / stable</td>
+<td>“wip”</td>
+</tr>
+<tr>
+<td>updated</td>
+<td>最終更新日</td>
+<td>“2026-03-11”</td>
+</tr>
+<tr>
+<td>author</td>
+<td>著者</td>
+<td>“claude”</td>
+</tr>
+<tr>
+<td>related</td>
+<td>関連ファイル</td>
+<td>[“<a href="http://saki-info.md">saki-info.md</a>”]</td>
+</tr>
+</tbody>
+</table>
+<h3>固有名詞ルール</h3>
+<p>以下は<strong>絶対に変更しない</strong>:</p>
+<ul>
+<li>高市総理</li>
+<li>片山財務大臣</li>
+<li>小野田オタク大臣</li>
+<li>鉄腕アトムのプルート</li>
+</ul>
+
+    </section>
+<section id="page-knowledge-saki-info" class="page-content" style="display:none;">
+      <div class="page-meta">
+        <span class="status status-stable">stable</span>
+        <span class="updated">Updated: 2026-03-11</span>
+        <span class="author">Author: claude</span>
+      </div>
+      <h1>CoinBattleSaki — 仮想通貨Botバトルとキャラクターが融合したプロジェクト</h1>
+<h2>最短結論</h2>
+<p>CoinBattleSaki は、リアルタイムの仮想通貨先物データを使った <strong>Botバトル系プロジェクト</strong>。AI生成キャラ・画像・演出とトレード戦略をゲーム化し、世界観・ルール・自動化を統合する。</p>
+<hr>
+<h2>プロジェクト概要</h2>
+<h3>本質</h3>
+<ul>
+<li>リアルタイムの仮想通貨先物データを用いた <strong>Botバトル</strong> 系プロジェクト</li>
+<li>AI生成要素（キャラクター、画像、演出）とトレード戦略をゲーム化する設計</li>
+<li>世界観・キャラ・ルール・AI生成を統合したプロジェクト</li>
+<li>ドキュメントは常に「読みやすく・俳句圧縮スタイル」で整える</li>
+</ul>
+<h3>データソース</h3>
+<ul>
+<li>仮想通貨先物の <strong>リアルタイムティック/板/約定データ</strong> を前提とする</li>
+<li>HFT（高頻度取引）系の短時間足重視</li>
+</ul>
+<h3>時間軸（重要）</h3>
+<table>
+<thead>
+<tr>
+<th>時間足</th>
+<th>優先度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1分</td>
+<td>最高</td>
+</tr>
+<tr>
+<td>3分</td>
+<td>高</td>
+</tr>
+<tr>
+<td>5分</td>
+<td>高</td>
+</tr>
+<tr>
+<td>15分</td>
+<td>中</td>
+</tr>
+<tr>
+<td>30分</td>
+<td>中</td>
+</tr>
+<tr>
+<td>1時間</td>
+<td>標準</td>
+</tr>
+</tbody>
+</table>
+<p>短時間軸を多めにする方針。</p>
+<hr>
+<h2>キャラクター/設定</h2>
+<h3>デザイン方針</h3>
+<ul>
+<li><strong>狐（女性イメージ）</strong> を中心としたキャラクター体系</li>
+<li>各キャラに短いメタデータ（性別/時間軸/イメージ/ロール）を付与</li>
+</ul>
+<h3>主要キャラクター</h3>
+<h4>雷狐（Raikō）</h4>
+<ul>
+<li><strong>性別</strong>: 女性</li>
+<li><strong>イメージ</strong>: 細身・長手・切れ長の顔</li>
+<li><strong>ロール</strong>: 狐系メインキャラクター</li>
+<li><strong>備考</strong>: 狐は女性イメージで統一</li>
+</ul>
+<h4>霧島 一郎（Kirishima Ichiro）</h4>
+<ul>
+<li><strong>ロール</strong>: HFT EMPEROR</li>
+<li><strong>イメージ</strong>: 高頻度取引の帝王</li>
+<li><strong>備考</strong>: HFT戦略のシンボル的存在</li>
+</ul>
+<hr>
+<h2>世界観運用</h2>
+<h3>ステージ設計</h3>
+<ul>
+<li>ステージは <strong>多様（世界各地）</strong> で展開</li>
+<li><strong>北斗の拳</strong> や <strong>ストリートファイター2</strong> のように場が多様であるべき</li>
+<li>パチンコ的演出要素も検討対象</li>
+</ul>
+<h3>演出方針</h3>
+<ul>
+<li>ゲーム的な演出と実データを融合</li>
+<li>AI生成画像・動画をバトル演出に活用</li>
+<li>パチンコ的な「激熱」「確変」のような演出レイヤーを検討</li>
+</ul>
+<hr>
+<h2>ツール/環境</h2>
+<h3>開発基盤</h3>
+<ul>
+<li><strong>GitHub</strong>: ソースコード管理・ファイル差分管理</li>
+<li><strong>画像生成AI</strong>: キャラクター・ステージ画像の自動生成</li>
+<li><strong>動画生成AI</strong>: バトル演出動画の自動生成</li>
+<li><strong>Claude Code</strong>: 自動化ワークフローの中核</li>
+<li><strong>MCP ターミナル接続</strong>: 実験段階（完全ではない）</li>
+</ul>
+<h3>設計方針</h3>
+<ul>
+<li>Notion を無理に使うより <strong>Markdown/HTML Knowledge Base</strong> を Claude が編集する形が望ましい</li>
+<li><strong>速度・安定性重視</strong> の設計思想</li>
+<li>Git によるファイル差分管理を活用</li>
+</ul>
+<hr>
+<h2>制約/注意点</h2>
+<h3>固有名詞の保全（絶対厳守）</h3>
+<p>以下の固有名詞は <strong>絶対に変換・改名しない</strong>:</p>
+<ul>
+<li><strong>高市総理</strong></li>
+<li><strong>片山財務大臣</strong></li>
+<li><strong>小野田オタク大臣</strong></li>
+<li><strong>鉄腕アトムのプルート</strong></li>
+</ul>
+<h3>文章スタイル</h3>
+<ul>
+<li>出力は「ブログに転記しても読み物として通用する」整った文章スタイル</li>
+<li>ユーザー（keisuku様）は「<strong>まず最短結論 → 詳細</strong>」の構成を好む</li>
+<li>俳句圧縮スタイル: 短い結論 → 見出し → 要点（箇条書き）</li>
+</ul>
+<hr>
+<h2>参考機能要求</h2>
+<ul>
+<li>ファイル差分管理（Git）を活用</li>
+<li>各キャラに短いメタデータ（性別/時間軸/イメージ/ロール）を付与</li>
+<li><code>prompts/claude_update.md</code> に Claude に渡す更新テンプレを用意（1回コピペで更新可能）</li>
+<li>センシティブ情報（APIキー等）はファイルに書かない</li>
+<li>環境変数設定手順は <code>docs/deploy.md</code> に記載</li>
+</ul>
+<hr>
+<h2>プロジェクト構成</h2>
+<pre><code>CoinBattleSaki-knowledgebase/
+├─ knowledge/    # コアナレッジ（Markdown）
+├─ docs/         # 設計・ロードマップ・デプロイ手順
+├─ web/          # 静的サイトのテンプレート
+├─ tools/        # ビルドスクリプト
+├─ assets/       # 画像等のアセット
+└─ site/         # ビルド成果物（生成される）
+</code></pre>
+<hr>
+<h2>今後の展望</h2>
+<ul>
+<li>リアルタイムデータ連携の強化</li>
+<li>キャラクター追加と世界観拡張</li>
+<li>バトルシステムのプロトタイプ実装</li>
+<li>AI生成画像/動画パイプラインの自動化</li>
+<li>コミュニティ公開に向けたUI改善</li>
+</ul>
+
+    </section>
+<section id="page-knowledge-systems" class="page-content" style="display:none;">
+      <div class="page-meta">
+        <span class="status status-wip">wip</span>
+        <span class="updated">Updated: 2026-03-11</span>
+        <span class="author">Author: claude</span>
+      </div>
+      <h1>システム設計 — AI自動化とMarkdownベースのナレッジ管理</h1>
+<h2>最短結論</h2>
+<p>GitHub + Claude Code + AI生成を軸にした自動化ワークフロー。Markdownベースで速度と安定性を優先する。</p>
+<hr>
+<h2>アーキテクチャ概要</h2>
+<h3>コア構成</h3>
+<pre><code>[仮想通貨先物データ] → [Bot エンジン] → [バトルロジック]
+                                              ↓
+[AI画像生成] → [演出レイヤー] → [フロントエンド表示]
+                                              ↓
+[Claude Code] → [ナレッジ更新] → [GitHub 自動コミット]
+</code></pre>
+<h3>技術スタック</h3>
+<table>
+<thead>
+<tr>
+<th>レイヤー</th>
+<th>技術</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>データ取得</td>
+<td>仮想通貨先物API（リアルタイム）</td>
+</tr>
+<tr>
+<td>Bot ロジック</td>
+<td>戦略エンジン（HFT重視）</td>
+</tr>
+<tr>
+<td>AI生成</td>
+<td>画像生成AI / 動画生成AI</td>
+</tr>
+<tr>
+<td>ナレッジ</td>
+<td>Markdown + Git</td>
+</tr>
+<tr>
+<td>自動化</td>
+<td>Claude Code / MCP接続</td>
+</tr>
+<tr>
+<td>公開</td>
+<td>静的サイト（GitHub Pages等）</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>ナレッジ管理システム</h2>
+<h3>方針</h3>
+<ul>
+<li><strong>Notion は使わない</strong> — Markdown/HTML Knowledge Base を Claude が直接編集</li>
+<li>速度・安定性重視</li>
+<li>Git によるファイル差分管理</li>
+</ul>
+<h3>更新フロー</h3>
+<ol>
+<li>ユーザーが <code>prompts/claude_update.md</code> のテンプレに要望を記入</li>
+<li>Claude がナレッジファイルを更新</li>
+<li>Git でコミット・差分管理</li>
+<li><code>build.sh</code> で静的サイトを再生成</li>
+</ol>
+<hr>
+<h2>MCP接続（実験段階）</h2>
+<ul>
+<li>MCP ターミナル接続を実験中</li>
+<li>完全ではないが、将来的に自動化パイプラインの一部として活用予定</li>
+<li>Claude Code との連携を強化する方向</li>
+</ul>
+<hr>
+<h2>セキュリティ方針</h2>
+<ul>
+<li>APIキー等のセンシティブ情報はファイルに書かない</li>
+<li>環境変数で管理（<code>docs/deploy.md</code> 参照）</li>
+<li><code>.gitignore</code> で秘密情報を除外</li>
+</ul>
+
+    </section>
+<section id="page-knowledge-timeline" class="page-content" style="display:none;">
+      <div class="page-meta">
+        <span class="status status-draft">draft</span>
+        <span class="updated">Updated: 2026-03-11</span>
+        <span class="author">Author: claude</span>
+      </div>
+      <h1>タイムライン — プロジェクトの進行記録</h1>
+<h2>最短結論</h2>
+<p>CoinBattleSaki の開発マイルストーンと進捗を時系列で記録する。</p>
+<hr>
+<h2>2026年3月</h2>
+<h3>2026-03-11: ナレッジベース初期構築</h3>
+<ul>
+<li>Markdown ベースの Knowledge Repository を作成</li>
+<li>初期コンテンツ（世界観・キャラ・システム設計）を投入</li>
+<li>ビルドスクリプト（Node.js / Python）を整備</li>
+<li>静的サイト生成の仕組みを確立</li>
+</ul>
+<hr>
+<h2>今後の予定マイルストーン</h2>
+<h3>Phase 1: 基盤整備</h3>
+<ul>
+<li>[ ] ナレッジベース完成</li>
+<li>[ ] キャラクター設定の詳細化</li>
+<li>[ ] データソース接続の検証</li>
+</ul>
+<h3>Phase 2: プロトタイプ</h3>
+<ul>
+<li>[ ] Bot エンジンのプロトタイプ</li>
+<li>[ ] バトルロジックの実装</li>
+<li>[ ] AI画像生成パイプライン構築</li>
+</ul>
+<h3>Phase 3: 演出・UI</h3>
+<ul>
+<li>[ ] パチンコ的演出の実装</li>
+<li>[ ] ステージ背景の自動生成</li>
+<li>[ ] フロントエンドUIの構築</li>
+</ul>
+<h3>Phase 4: 統合・公開</h3>
+<ul>
+<li>[ ] 全システム統合テスト</li>
+<li>[ ] コミュニティ向け公開準備</li>
+<li>[ ] ドキュメント最終整備</li>
+</ul>
+
+    </section>
+<section id="page-knowledge-trading_system" class="page-content" style="display:none;">
+      <div class="page-meta">
+        <span class="status status-wip">wip</span>
+        <span class="updated">Updated: 2026-03-11</span>
+        <span class="author">Author: claude</span>
+      </div>
+      <h1>トレーディングシステム — HFT重視の仮想通貨先物Botバトル</h1>
+<h2>最短結論</h2>
+<p>仮想通貨先物のリアルタイムデータを使い、短時間軸（1分〜1時間）で Bot 同士がバトルする。HFT戦略を中心に据える。</p>
+<hr>
+<h2>データ仕様</h2>
+<h3>入力データ</h3>
+<ul>
+<li><strong>ティックデータ</strong>: リアルタイム価格更新</li>
+<li><strong>板情報</strong>: オーダーブックの深度</li>
+<li><strong>約定データ</strong>: 実行された取引の履歴</li>
+</ul>
+<h3>時間軸設定</h3>
+<table>
+<thead>
+<tr>
+<th>時間足</th>
+<th>用途</th>
+<th>優先度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1分</td>
+<td>スキャルピング</td>
+<td>最高</td>
+</tr>
+<tr>
+<td>3分</td>
+<td>超短期トレンド</td>
+<td>高</td>
+</tr>
+<tr>
+<td>5分</td>
+<td>短期モメンタム</td>
+<td>高</td>
+</tr>
+<tr>
+<td>15分</td>
+<td>中期トレンド</td>
+<td>中</td>
+</tr>
+<tr>
+<td>30分</td>
+<td>中期戦略</td>
+<td>中</td>
+</tr>
+<tr>
+<td>1時間</td>
+<td>全体方向性</td>
+<td>標準</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>Bot 戦略タイプ</h2>
+<h3>スキャルパー型</h3>
+<ul>
+<li>時間軸: 1分〜3分</li>
+<li>特徴: 高頻度・小利確・損切り即座</li>
+<li>代表キャラ: 雷狐（Raikō）</li>
+</ul>
+<h3>HFT型</h3>
+<ul>
+<li>時間軸: ティック〜1分</li>
+<li>特徴: マシン精度の高速執行</li>
+<li>代表キャラ: 霧島 一郎（Kirishima Ichiro）</li>
+</ul>
+<h3>モメンタム型</h3>
+<ul>
+<li>時間軸: 5分〜15分</li>
+<li>特徴: トレンドに乗る順張り</li>
+<li>代表キャラ: （追加予定）</li>
+</ul>
+<h3>スイング型</h3>
+<ul>
+<li>時間軸: 30分〜1時間</li>
+<li>特徴: 大きな波を捉える</li>
+<li>代表キャラ: （追加予定）</li>
+</ul>
+<hr>
+<h2>バトルルール（仮）</h2>
+<ul>
+<li>同一時間帯に複数Botが同一銘柄でトレード</li>
+<li>一定期間後の損益で勝敗を判定</li>
+<li>連勝ボーナス・逆転演出あり</li>
+<li>ステージごとの特殊ルール適用</li>
+</ul>
+<hr>
+<h2>今後の課題</h2>
+<ul>
+<li>リアルタイムデータ接続の安定化</li>
+<li>バックテスト環境の整備</li>
+<li>戦略パラメータの自動最適化</li>
+<li>バトル結果の可視化UI</li>
+</ul>
+
+    </section>
+<section id="page-knowledge-world" class="page-content" style="display:none;">
+      <div class="page-meta">
+        <span class="status status-wip">wip</span>
+        <span class="updated">Updated: 2026-03-11</span>
+        <span class="author">Author: claude</span>
+      </div>
+      <h1>世界観 — 多様なステージで繰り広げられる仮想通貨バトル</h1>
+<h2>最短結論</h2>
+<p>北斗の拳やストリートファイター2のように世界各地を舞台にした多様なバトルステージ。パチンコ的演出で盛り上げる。</p>
+<hr>
+<h2>ステージ設計思想</h2>
+<h3>多様性の原則</h3>
+<ul>
+<li>世界各地にステージを配置</li>
+<li>各ステージに固有の雰囲気・ルール補正</li>
+<li>仮想通貨市場の状況とステージ演出がリンク</li>
+</ul>
+<h3>参考作品</h3>
+<table>
+<thead>
+<tr>
+<th>作品</th>
+<th>取り入れる要素</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>北斗の拳</td>
+<td>荒廃感・緊迫感・一撃の重み</td>
+</tr>
+<tr>
+<td>ストリートファイター2</td>
+<td>世界各地のステージ多様性</td>
+</tr>
+<tr>
+<td>パチンコ演出</td>
+<td>激熱・確変・リーチ演出</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>ステージ例（仮）</h2>
+<h3>東京・秋葉原</h3>
+<ul>
+<li>テーマ: 電脳都市の高速取引</li>
+<li>雰囲気: ネオン・電光掲示板・データの奔流</li>
+<li>適合時間軸: 1分〜5分（超短期決戦）</li>
+</ul>
+<h3>ニューヨーク・ウォール街</h3>
+<ul>
+<li>テーマ: 金融の中枢</li>
+<li>雰囲気: 摩天楼・取引所フロア</li>
+<li>適合時間軸: 15分〜1時間（中期戦略戦）</li>
+</ul>
+<h3>香港・ビクトリアピーク</h3>
+<ul>
+<li>テーマ: アジアの金融ハブ</li>
+<li>雰囲気: 夜景・港・国際色</li>
+<li>適合時間軸: 5分〜15分</li>
+</ul>
+<hr>
+<h2>演出レイヤー</h2>
+<h3>パチンコ的演出要素</h3>
+<ul>
+<li><strong>激熱</strong>: 大きな値動き発生時</li>
+<li><strong>確変</strong>: 連勝中の特殊モード</li>
+<li><strong>リーチ</strong>: 決定的なトレードポイント接近</li>
+<li><strong>大当たり</strong>: 大幅利確成功</li>
+</ul>
+<h3>AI生成演出</h3>
+<ul>
+<li>ステージ背景画像: 画像生成AIで自動生成</li>
+<li>バトルシーン: 動画生成AIで演出</li>
+<li>キャラクター表情変化: 損益に連動</li>
+</ul>
+<hr>
+<h2>今後の拡張</h2>
+<ul>
+<li>ステージ追加（ロンドン、シンガポール、ドバイ等）</li>
+<li>天候・時間帯による演出変化</li>
+<li>ステージ固有のバフ/デバフシステム</li>
+</ul>
+
+    </section>
+<section id="page-docs-deploy" class="page-content" style="display:none;">
+      <div class="page-meta">
+        <span class="status status-draft">draft</span>
+        <span class="updated">Updated: 2026-03-11</span>
+        <span class="author">Author: claude</span>
+      </div>
+      <h1>デプロイ手順 — 静的サイトの公開方法</h1>
+<h2>最短結論</h2>
+<p><code>./build.sh</code> で <code>site/</code> を生成し、GitHub Pages / Netlify / Cloudflare Pages にデプロイする。</p>
+<hr>
+<h2>ビルド</h2>
+<pre><code class="language-bash"># Node.js でビルド
+./build.sh
+
+# または Python でビルド
+./build.sh --python
+</code></pre>
+<p>成果物: <code>site/index.html</code></p>
+<hr>
+<h2>環境変数設定</h2>
+<p><strong>注意: APIキー等のセンシティブ情報はリポジトリに含めないこと。</strong></p>
+<p>必要に応じて以下の環境変数を設定:</p>
+<pre><code class="language-bash"># .env（.gitignore に含めること）
+SITE_TITLE=&quot;CoinBattleSaki Knowledge Base&quot;
+SITE_URL=&quot;https://your-domain.com&quot;
+</code></pre>
+<hr>
+<h2>デプロイ先オプション</h2>
+<h3>GitHub Pages</h3>
+<ol>
+<li>リポジトリの Settings → Pages</li>
+<li>Source: <code>Deploy from a branch</code></li>
+<li>Branch: <code>main</code> / フォルダ: <code>/site</code></li>
+<li>または GitHub Actions で自動ビルド・デプロイ</li>
+</ol>
+<pre><code class="language-yaml"># .github/workflows/deploy.yml の例
+name: Deploy
+on:
+  push:
+    branches: [main]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - run: npm install
+      - run: ./build.sh
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site/
+</code></pre>
+<h3>Netlify</h3>
+<ol>
+<li><code>netlify.toml</code> を作成:</li>
+</ol>
+<pre><code class="language-toml">[build]
+  command = &quot;./build.sh&quot;
+  publish = &quot;site/&quot;
+</code></pre>
+<ol start="2">
+<li>Netlify にリポジトリを接続</li>
+<li>自動デプロイが有効化される</li>
+</ol>
+<h3>Cloudflare Pages</h3>
+<ol>
+<li>Cloudflare Dashboard → Pages → Create a project</li>
+<li>Git リポジトリを接続</li>
+<li>Build command: <code>./build.sh</code></li>
+<li>Output directory: <code>site/</code></li>
+</ol>
+<hr>
+<h2>セキュリティチェックリスト</h2>
+<ul>
+<li>[ ] <code>.env</code> ファイルが <code>.gitignore</code> に含まれている</li>
+<li>[ ] APIキーがソースコードに含まれていない</li>
+<li>[ ] 公開ファイルにセンシティブ情報がない</li>
+<li>[ ] HTTPS が有効化されている</li>
+</ul>
+
+    </section>
+<section id="page-docs-design" class="page-content" style="display:none;">
+      <div class="page-meta">
+        <span class="status status-wip">wip</span>
+        <span class="updated">Updated: 2026-03-11</span>
+        <span class="author">Author: claude</span>
+      </div>
+      <h1>設計ドキュメント — CoinBattleSaki 全体アーキテクチャ</h1>
+<h2>最短結論</h2>
+<p>Markdown Knowledge Base + 静的サイト生成 + Git 管理。Claude Code で自動更新し、AI生成と仮想通貨データを統合する。</p>
+<hr>
+<h2>設計原則</h2>
+<ol>
+<li><strong>速度優先</strong>: Notion より Markdown/HTML が速い</li>
+<li><strong>安定性</strong>: Git ベースで差分管理、ロールバック可能</li>
+<li><strong>自動化</strong>: Claude Code が編集→コミット→ビルドまで一貫</li>
+<li><strong>拡張性</strong>: ファイル追加だけで知識が増える</li>
+</ol>
+<hr>
+<h2>システム構成図</h2>
+<pre><code>┌──────────────────────────────────────────────┐
+│                  ユーザー                      │
+│        (keisuku / claude_update.md)           │
+└──────────────┬───────────────────────────────┘
+               │ テンプレ投入
+               ▼
+┌──────────────────────────────────────────────┐
+│              Claude Code                      │
+│   - Markdown 編集                             │
+│   - Git コミット                               │
+│   - ビルドスクリプト実行                        │
+└──────────────┬───────────────────────────────┘
+               │
+       ┌───────┴───────┐
+       ▼               ▼
+┌─────────────┐ ┌─────────────┐
+│ knowledge/  │ │   tools/    │
+│ (Markdown)  │ │ (build.sh)  │
+└──────┬──────┘ └──────┬──────┘
+       │               │
+       └───────┬───────┘
+               ▼
+┌──────────────────────────────────────────────┐
+│             site/ (静的HTML)                   │
+│   - index.html (Notion風UI)                  │
+│   - 検索機能付き                               │
+└──────────────────────────────────────────────┘
+</code></pre>
+<hr>
+<h2>データフロー</h2>
+<h3>ナレッジ更新</h3>
+<ol>
+<li>テンプレコピペ → Claude に依頼</li>
+<li>Claude が <code>knowledge/*.md</code> を編集</li>
+<li><code>git commit</code> で差分記録</li>
+<li><code>./build.sh</code> で <code>site/</code> を再生成</li>
+</ol>
+<h3>バトルデータ（将来）</h3>
+<ol>
+<li>仮想通貨先物API → リアルタイムデータ取得</li>
+<li>Bot エンジンがトレード実行</li>
+<li>バトル結果を <code>knowledge/</code> に記録</li>
+<li>AI生成で演出画像/動画を生成</li>
+</ol>
+<hr>
+<h2>ファイル命名規則</h2>
+<ul>
+<li><code>knowledge/</code>: 小文字スネークケース（例: <code>trading_system.md</code>）</li>
+<li><code>docs/</code>: 小文字スネークケース</li>
+<li><code>tools/</code>: <code>build_</code> プレフィックス + 言語名</li>
+<li><code>web/</code>: 標準的なWeb命名規則</li>
+</ul>
+
+    </section>
+<section id="page-docs-roadmap" class="page-content" style="display:none;">
+      <div class="page-meta">
+        <span class="status status-draft">draft</span>
+        <span class="updated">Updated: 2026-03-11</span>
+        <span class="author">Author: claude</span>
+      </div>
+      <h1>ロードマップ — CoinBattleSaki 開発計画</h1>
+<h2>最短結論</h2>
+<p>4フェーズで段階的に構築。基盤整備 → プロトタイプ → 演出UI → 統合公開。</p>
+<hr>
+<h2>Phase 1: 基盤整備（現在）</h2>
+<ul>
+<li>[x] ナレッジベース構築</li>
+<li>[x] ビルドスクリプト整備</li>
+<li>[ ] キャラクター設定の詳細化</li>
+<li>[ ] データソース選定・接続検証</li>
+<li>[ ] CI/CD パイプライン構築</li>
+</ul>
+<h2>Phase 2: プロトタイプ</h2>
+<ul>
+<li>[ ] Bot エンジン基本実装</li>
+<li>[ ] バトルロジック設計・実装</li>
+<li>[ ] リアルタイムデータ取得</li>
+<li>[ ] AI画像生成パイプライン</li>
+<li>[ ] バックテスト環境</li>
+</ul>
+<h2>Phase 3: 演出・UI</h2>
+<ul>
+<li>[ ] パチンコ的演出エンジン</li>
+<li>[ ] ステージ背景自動生成</li>
+<li>[ ] フロントエンドUI</li>
+<li>[ ] キャラクターアニメーション</li>
+<li>[ ] 動画生成AI連携</li>
+</ul>
+<h2>Phase 4: 統合・公開</h2>
+<ul>
+<li>[ ] 全システム統合テスト</li>
+<li>[ ] パフォーマンス最適化</li>
+<li>[ ] コミュニティ公開準備</li>
+<li>[ ] ドキュメント最終版</li>
+<li>[ ] デプロイ自動化</li>
+</ul>
+
+    </section>
+    </main>
+  </div>
+  <script>
+    const SEARCH_DATA = [{"slug":"knowledge-characters","title":"キャラクター一覧","tags":["characters","design","metadata"],"text":" キャラクター — 狐（女性）を中心としたバトラー群 \n 最短結論 \n 狐の女性キャラを軸に、各キャラにトレード戦略・時間軸・ロールを紐づける。メタデータ管理で拡張性を確保。 \n \n キャラクター設計方針 \n \n  狐は女性イメージ  で統一 \n 各キャラに短いメタデータを付与: 性別 / 時間軸 / イメージ / ロール \n AI生成画像で外見を自動生成 \n キャラクターはトレード戦略のアバターとして機能 \n \n \n 主要キャラクター \n 雷狐（Raikō） \n \n \n \n 項目 \n 値 \n \n \n \n \n 性別 \n 女性 \n \n \n 時間軸 \n 1分〜5分 \n \n \n イメージ \n 細身・長手・切れ長の顔 \n \n \n ロール \n スキャルパー / 電撃トレーダー \n \n \n 特徴 \n 超短期で一瞬の隙を突く \n \n \n \n 霧島 一郎（Kirishima Ichiro） \n \n \n \n 項目 \n 値 \n \n \n \n \n 性別 \n 男性 \n \n \n 時間軸 \n 1分以下（ティック単位） \n \n \n イメージ \n HFT EMPEROR \n \n \n ロール \n 高頻度取引の帝王 \n \n \n 特徴 \n マシンのように正確な執行 \n \n \n \n \n キャラクターテンプレート \n 新キャラ追加時は以下のフォーマットで記載: \n  ### キャラ名（ローマ字）\n\n| 項目 | 値 |\n|------|-----|\n| 性別 | |\n| 時間軸 | |\n| イメージ | |\n| ロール | |\n| 特徴 | |\n  \n \n 今後の追加予定 \n \n 中期戦略型キャラクター（15分〜1時間足） \n ボスキャラクター（特殊イベント用） \n サポートキャラクター（分析・情報提供役） \n 各キャラのAI生成立ち絵・表情差分 \n \n"},{"slug":"knowledge-prompts-claude_update","title":"Claude 更新テンプレート","tags":["prompt","template","automation"],"text":" Claude 更新テンプレート — 1回コピペで更新を依頼する \n 最短結論 \n 以下のテンプレをコピペして Claude に渡すだけで、ナレッジベースを更新できる。 \n \n 更新テンプレート（コピペ用） \n  ## ナレッジ更新依頼\n\n### 1. 要請（1行）\n（例: world.md を最新の価格データで更新して）\n\n### 2. 対象ファイル\n（例: knowledge/world.md）\n\n### 3. 変更内容（要点3つ）\n1.\n2.\n3.\n\n### 4. 出力形式\n（ diff / full file / 該当セクションのみ ）\n\n### 5. コミットメッセージ\n（例: &quot;Update world.md: add new stage Shanghai&quot;）\n  \n \n 使い方 \n \n 上のテンプレをコピー \n 各項目を埋める \n Claude に渡す \n Claude が対象ファイルを更新し、Git コミットまで行う \n \n \n 応用例 \n キャラクター追加 \n  ## ナレッジ更新依頼\n\n### 1. 要請\ncharacters.md に新キャラ「白狐（Byakko）」を追加して\n\n### 2. 対象ファイル\nknowledge/characters.md\n\n### 3. 変更内容\n1. 白狐のメタデータ（性別:女性、時間軸:15分、ロール:中期トレンドフォロワー）\n2. キャラ説明文（俳句圧縮スタイル）\n3. related ファイルの更新\n\n### 4. 出力形式\nfull file\n\n### 5. コミットメッセージ\n&quot;Add character: Byakko (白狐) - mid-term trend follower&quot;\n  \n ステージ追加 \n  ## ナレッジ更新依頼\n\n### 1. 要請\nworld.md に上海ステージを追加して\n\n### 2. 対象ファイル\nknowledge/world.md\n\n### 3. 変更内容\n1. 上海ステージの設定（テーマ・雰囲気・時間軸）\n2. ステージ例セクションに追加\n3. 演出の特殊要素\n\n### 4. 出力形式\ndiff\n\n### 5. コミットメッセージ\n&quot;Add stage: Shanghai financial district&quot;\n  \n"},{"slug":"knowledge-prompts-content_template","title":"コンテンツテンプレート","tags":["template","format","guide"],"text":" コンテンツテンプレート — 新規Markdownファイルのひな形 \n 最短結論 \n 新しいナレッジファイルを作成する際はこのテンプレートに従う。俳句圧縮スタイルを厳守。 \n \n テンプレート \n  ---\ntitle: &quot;タイトル&quot;\ntags: [&quot;tag1&quot;, &quot;tag2&quot;]\nstatus: &quot;draft&quot;\nupdated: &quot;YYYY-MM-DD&quot;\nauthor: &quot;claude&quot;\nrelated: [&quot;related-file.md&quot;]\n---\n\n# タイトル — サブタイトル（1行で内容を要約）\n\n## 最短結論\n\n（1〜2文で結論を述べる。これだけ読めば要点が分かるように。）\n\n---\n\n## 大見出し1\n\n### 中見出し\n\n- 要点1\n- 要点2\n- 要点3\n\n## 大見出し2\n\n### 中見出し\n\n- 要点\n  \n \n フォーマットルール \n 俳句圧縮スタイル \n \n  最短結論 （1行）を冒頭に置く \n  大見出し  →  中見出し  →  要点（箇条書き）  の階層 \n 冗長な説明は避け、要点を箇条書きで圧縮 \n 表は情報の比較・一覧に積極的に使う \n \n Frontmatter 必須フィールド \n \n \n \n フィールド \n 説明 \n 例 \n \n \n \n \n title \n ファイルのタイトル \n “世界観設定” \n \n \n tags \n タグ配列 \n [“world”, “setting”] \n \n \n status \n draft / wip / stable \n “wip” \n \n \n updated \n 最終更新日 \n “2026-03-11” \n \n \n author \n 著者 \n “claude” \n \n \n related \n 関連ファイル \n [“ saki-info.md ”] \n \n \n \n 固有名詞ルール \n 以下は 絶対に変更しない : \n \n 高市総理 \n 片山財務大臣 \n 小野田オタク大臣 \n 鉄腕アトムのプルート \n \n"},{"slug":"knowledge-saki-info","title":"CoinBattleSaki プロジェクト総合情報","tags":["overview","core","project","coinbattlesaki"],"text":" CoinBattleSaki — 仮想通貨Botバトルとキャラクターが融合したプロジェクト \n 最短結論 \n CoinBattleSaki は、リアルタイムの仮想通貨先物データを使った  Botバトル系プロジェクト 。AI生成キャラ・画像・演出とトレード戦略をゲーム化し、世界観・ルール・自動化を統合する。 \n \n プロジェクト概要 \n 本質 \n \n リアルタイムの仮想通貨先物データを用いた  Botバトル  系プロジェクト \n AI生成要素（キャラクター、画像、演出）とトレード戦略をゲーム化する設計 \n 世界観・キャラ・ルール・AI生成を統合したプロジェクト \n ドキュメントは常に「読みやすく・俳句圧縮スタイル」で整える \n \n データソース \n \n 仮想通貨先物の  リアルタイムティック/板/約定データ  を前提とする \n HFT（高頻度取引）系の短時間足重視 \n \n 時間軸（重要） \n \n \n \n 時間足 \n 優先度 \n \n \n \n \n 1分 \n 最高 \n \n \n 3分 \n 高 \n \n \n 5分 \n 高 \n \n \n 15分 \n 中 \n \n \n 30分 \n 中 \n \n \n 1時間 \n 標準 \n \n \n \n 短時間軸を多めにする方針。 \n \n キャラクター/設定 \n デザイン方針 \n \n  狐（女性イメージ）  を中心としたキャラクター体系 \n 各キャラに短いメタデータ（性別/時間軸/イメージ/ロール）を付与 \n \n 主要キャラクター \n 雷狐（Raikō） \n \n  性別 : 女性 \n  イメージ : 細身・長手・切れ長の顔 \n  ロール : 狐系メインキャラクター \n  備考 : 狐は女性イメージで統一 \n \n 霧島 一郎（Kirishima Ichiro） \n \n  ロール : HFT EMPEROR \n  イメージ : 高頻度取引の帝王 \n  備考 : HFT戦略のシンボル的存在 \n \n \n 世界観運用 \n ステージ設計 \n \n ステージは  多様（世界各地）  で展開 \n  北斗の拳  や  ストリートファイター2  のように場が多様であるべき \n パチンコ的演出要素も検討対象 \n \n 演出方針 \n \n ゲーム的な演出と実データを融合 \n AI生成画像・動画をバトル演出に活用 \n パチンコ的な「激熱」「確変」のような演出レイヤーを検討 \n \n \n ツール/環境 \n 開発基盤 \n \n  GitHub : ソースコード管理・ファイル差分管理 \n  画像生成AI : キャラクター・ステージ画像の自動生成 \n  動画生成AI : バトル演出動画の自動生成 \n  Claude Code : 自動化ワークフローの中核 \n  MCP ターミナル接続 : 実験段階（完全ではない） \n \n 設計方針 \n \n Notion を無理に使うより  Markdown/HTML Knowledge Base  を Claude が編集する形が望ましい \n  速度・安定性重視  の設計思想 \n Git によるファイル差分管理を活用 \n \n \n 制約/注意点 \n 固有名詞の保全（絶対厳守） \n 以下の固有名詞は  絶対に変換・改名しない : \n \n  高市総理  \n  片山財務大臣  \n  小野田オタク大臣  \n  鉄腕アトムのプルート  \n \n 文章スタイル \n \n 出力は「ブログに転記しても読み物として通用する」整った文章スタイル \n ユーザー（keisuku様）は「 まず最短結論 → 詳細 」の構成を好む \n 俳句圧縮スタイル: 短い結論 → 見出し → 要点（箇条書き） \n \n \n 参考機能要求 \n \n ファイル差分管理（Git）を活用 \n 各キャラに短いメタデータ（性別/時間軸/イメージ/ロール）を付与 \n  prompts/claude_update.md  に Claude に渡す更新テンプレを用意（1回コピペで更新可能） \n センシティブ情報（APIキー等）はファイルに書かない \n 環境変数設定手順は  docs/deploy.md  に記載 \n \n \n プロジェクト構成 \n  CoinBattleSaki-knowledgebase/\n├─ knowledge/    # コアナレッジ（Markdown）\n├─ docs/         # 設計・ロードマップ・デプロイ手順\n├─ web/          # 静的サイトのテンプレート\n├─ tools/        # ビルドスクリプト\n├─ assets/       # 画像等のアセット\n└─ site/         # ビルド成果物（生成される）\n  \n \n 今後の展望 \n \n リアルタイムデータ連携の強化 \n キャラクター追加と世界観拡張 \n バトルシステムの"},{"slug":"knowledge-systems","title":"システム設計","tags":["system","architecture","automation"],"text":" システム設計 — AI自動化とMarkdownベースのナレッジ管理 \n 最短結論 \n GitHub + Claude Code + AI生成を軸にした自動化ワークフロー。Markdownベースで速度と安定性を優先する。 \n \n アーキテクチャ概要 \n コア構成 \n  [仮想通貨先物データ] → [Bot エンジン] → [バトルロジック]\n                                              ↓\n[AI画像生成] → [演出レイヤー] → [フロントエンド表示]\n                                              ↓\n[Claude Code] → [ナレッジ更新] → [GitHub 自動コミット]\n  \n 技術スタック \n \n \n \n レイヤー \n 技術 \n \n \n \n \n データ取得 \n 仮想通貨先物API（リアルタイム） \n \n \n Bot ロジック \n 戦略エンジン（HFT重視） \n \n \n AI生成 \n 画像生成AI / 動画生成AI \n \n \n ナレッジ \n Markdown + Git \n \n \n 自動化 \n Claude Code / MCP接続 \n \n \n 公開 \n 静的サイト（GitHub Pages等） \n \n \n \n \n ナレッジ管理システム \n 方針 \n \n  Notion は使わない  — Markdown/HTML Knowledge Base を Claude が直接編集 \n 速度・安定性重視 \n Git によるファイル差分管理 \n \n 更新フロー \n \n ユーザーが  prompts/claude_update.md  のテンプレに要望を記入 \n Claude がナレッジファイルを更新 \n Git でコミット・差分管理 \n  build.sh  で静的サイトを再生成 \n \n \n MCP接続（実験段階） \n \n MCP ターミナル接続を実験中 \n 完全ではないが、将来的に自動化パイプラインの一部として活用予定 \n Claude Code との連携を強化する方向 \n \n \n セキュリティ方針 \n \n APIキー等のセンシティブ情報はファイルに書かない \n 環境変数で管理（ docs/deploy.md  参照） \n  .gitignore  で秘密情報を除外 \n \n"},{"slug":"knowledge-timeline","title":"タイムライン","tags":["timeline","progress","milestone"],"text":" タイムライン — プロジェクトの進行記録 \n 最短結論 \n CoinBattleSaki の開発マイルストーンと進捗を時系列で記録する。 \n \n 2026年3月 \n 2026-03-11: ナレッジベース初期構築 \n \n Markdown ベースの Knowledge Repository を作成 \n 初期コンテンツ（世界観・キャラ・システム設計）を投入 \n ビルドスクリプト（Node.js / Python）を整備 \n 静的サイト生成の仕組みを確立 \n \n \n 今後の予定マイルストーン \n Phase 1: 基盤整備 \n \n [ ] ナレッジベース完成 \n [ ] キャラクター設定の詳細化 \n [ ] データソース接続の検証 \n \n Phase 2: プロトタイプ \n \n [ ] Bot エンジンのプロトタイプ \n [ ] バトルロジックの実装 \n [ ] AI画像生成パイプライン構築 \n \n Phase 3: 演出・UI \n \n [ ] パチンコ的演出の実装 \n [ ] ステージ背景の自動生成 \n [ ] フロントエンドUIの構築 \n \n Phase 4: 統合・公開 \n \n [ ] 全システム統合テスト \n [ ] コミュニティ向け公開準備 \n [ ] ドキュメント最終整備 \n \n"},{"slug":"knowledge-trading_system","title":"トレーディングシステム","tags":["trading","hft","bot","futures","crypto"],"text":" トレーディングシステム — HFT重視の仮想通貨先物Botバトル \n 最短結論 \n 仮想通貨先物のリアルタイムデータを使い、短時間軸（1分〜1時間）で Bot 同士がバトルする。HFT戦略を中心に据える。 \n \n データ仕様 \n 入力データ \n \n  ティックデータ : リアルタイム価格更新 \n  板情報 : オーダーブックの深度 \n  約定データ : 実行された取引の履歴 \n \n 時間軸設定 \n \n \n \n 時間足 \n 用途 \n 優先度 \n \n \n \n \n 1分 \n スキャルピング \n 最高 \n \n \n 3分 \n 超短期トレンド \n 高 \n \n \n 5分 \n 短期モメンタム \n 高 \n \n \n 15分 \n 中期トレンド \n 中 \n \n \n 30分 \n 中期戦略 \n 中 \n \n \n 1時間 \n 全体方向性 \n 標準 \n \n \n \n \n Bot 戦略タイプ \n スキャルパー型 \n \n 時間軸: 1分〜3分 \n 特徴: 高頻度・小利確・損切り即座 \n 代表キャラ: 雷狐（Raikō） \n \n HFT型 \n \n 時間軸: ティック〜1分 \n 特徴: マシン精度の高速執行 \n 代表キャラ: 霧島 一郎（Kirishima Ichiro） \n \n モメンタム型 \n \n 時間軸: 5分〜15分 \n 特徴: トレンドに乗る順張り \n 代表キャラ: （追加予定） \n \n スイング型 \n \n 時間軸: 30分〜1時間 \n 特徴: 大きな波を捉える \n 代表キャラ: （追加予定） \n \n \n バトルルール（仮） \n \n 同一時間帯に複数Botが同一銘柄でトレード \n 一定期間後の損益で勝敗を判定 \n 連勝ボーナス・逆転演出あり \n ステージごとの特殊ルール適用 \n \n \n 今後の課題 \n \n リアルタイムデータ接続の安定化 \n バックテスト環境の整備 \n 戦略パラメータの自動最適化 \n バトル結果の可視化UI \n \n"},{"slug":"knowledge-world","title":"世界観設定","tags":["world","setting","stage","lore"],"text":" 世界観 — 多様なステージで繰り広げられる仮想通貨バトル \n 最短結論 \n 北斗の拳やストリートファイター2のように世界各地を舞台にした多様なバトルステージ。パチンコ的演出で盛り上げる。 \n \n ステージ設計思想 \n 多様性の原則 \n \n 世界各地にステージを配置 \n 各ステージに固有の雰囲気・ルール補正 \n 仮想通貨市場の状況とステージ演出がリンク \n \n 参考作品 \n \n \n \n 作品 \n 取り入れる要素 \n \n \n \n \n 北斗の拳 \n 荒廃感・緊迫感・一撃の重み \n \n \n ストリートファイター2 \n 世界各地のステージ多様性 \n \n \n パチンコ演出 \n 激熱・確変・リーチ演出 \n \n \n \n \n ステージ例（仮） \n 東京・秋葉原 \n \n テーマ: 電脳都市の高速取引 \n 雰囲気: ネオン・電光掲示板・データの奔流 \n 適合時間軸: 1分〜5分（超短期決戦） \n \n ニューヨーク・ウォール街 \n \n テーマ: 金融の中枢 \n 雰囲気: 摩天楼・取引所フロア \n 適合時間軸: 15分〜1時間（中期戦略戦） \n \n 香港・ビクトリアピーク \n \n テーマ: アジアの金融ハブ \n 雰囲気: 夜景・港・国際色 \n 適合時間軸: 5分〜15分 \n \n \n 演出レイヤー \n パチンコ的演出要素 \n \n  激熱 : 大きな値動き発生時 \n  確変 : 連勝中の特殊モード \n  リーチ : 決定的なトレードポイント接近 \n  大当たり : 大幅利確成功 \n \n AI生成演出 \n \n ステージ背景画像: 画像生成AIで自動生成 \n バトルシーン: 動画生成AIで演出 \n キャラクター表情変化: 損益に連動 \n \n \n 今後の拡張 \n \n ステージ追加（ロンドン、シンガポール、ドバイ等） \n 天候・時間帯による演出変化 \n ステージ固有のバフ/デバフシステム \n \n"},{"slug":"docs-deploy","title":"デプロイ手順","tags":["deploy","hosting","ci"],"text":" デプロイ手順 — 静的サイトの公開方法 \n 最短結論 \n  ./build.sh  で  site/  を生成し、GitHub Pages / Netlify / Cloudflare Pages にデプロイする。 \n \n ビルド \n  # Node.js でビルド\n./build.sh\n\n# または Python でビルド\n./build.sh --python\n  \n 成果物:  site/index.html  \n \n 環境変数設定 \n  注意: APIキー等のセンシティブ情報はリポジトリに含めないこと。  \n 必要に応じて以下の環境変数を設定: \n  # .env（.gitignore に含めること）\nSITE_TITLE=&quot;CoinBattleSaki Knowledge Base&quot;\nSITE_URL=&quot;https://your-domain.com&quot;\n  \n \n デプロイ先オプション \n GitHub Pages \n \n リポジトリの Settings → Pages \n Source:  Deploy from a branch  \n Branch:  main  / フォルダ:  /site  \n または GitHub Actions で自動ビルド・デプロイ \n \n  # .github/workflows/deploy.yml の例\nname: Deploy\non:\n  push:\n    branches: [main]\njobs:\n  build:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v4\n      - uses: actions/setup-node@v4\n        with:\n          node-version: '20'\n      - run: npm install\n      - run: ./build.sh\n      - uses: actions/upload-pages-artifact@v3\n        with:\n          path: site/\n  \n Netlify \n \n  netlify.toml  を作成: \n \n  [build]\n  command = &quot;./build.sh&quot;\n  publish = &quot;site/&quot;\n  \n \n Netlify にリポジトリを接続 \n 自動デプロイが有効化される \n \n Cloudflare Pages \n \n Cloudflare Dashboard → Pages → Create a project \n Git リポジトリを接続 \n Build command:  ./build.sh  \n Output directory:  site/  \n \n \n セキュリティチェックリスト \n \n [ ]  .env  ファイルが  .gitignore  に含まれている \n [ ] APIキーがソースコードに含まれていない \n [ ] 公開ファイルにセンシティブ情報がない \n [ ] HTTPS が有効化されている \n \n"},{"slug":"docs-design","title":"設計ドキュメント","tags":["design","architecture","spec"],"text":" 設計ドキュメント — CoinBattleSaki 全体アーキテクチャ \n 最短結論 \n Markdown Knowledge Base + 静的サイト生成 + Git 管理。Claude Code で自動更新し、AI生成と仮想通貨データを統合する。 \n \n 設計原則 \n \n  速度優先 : Notion より Markdown/HTML が速い \n  安定性 : Git ベースで差分管理、ロールバック可能 \n  自動化 : Claude Code が編集→コミット→ビルドまで一貫 \n  拡張性 : ファイル追加だけで知識が増える \n \n \n システム構成図 \n  ┌──────────────────────────────────────────────┐\n│                  ユーザー                      │\n│        (keisuku / claude_update.md)           │\n└──────────────┬───────────────────────────────┘\n               │ テンプレ投入\n               ▼\n┌──────────────────────────────────────────────┐\n│              Claude Code                      │\n│   - Markdown 編集                             │\n│   - Git コミット                               │\n│   - ビルドスクリプト実行                        │\n└──────────────┬───────────────────────────────┘\n               │\n       ┌───────┴───────┐\n       ▼               ▼\n┌─────────────┐ ┌─────────────┐\n│ knowledge/  │ │   tools/    │\n│ (Markdown)  │ │ (build.sh)  │\n└──────┬──────┘ └──────┬──────┘\n       │               │\n       └───────┬───────┘\n               ▼\n┌──────────────────────────────────────────────┐\n│             site/ (静的HTML)                   │\n│   - index.html (Notion風UI)                  │\n│   - 検索機能付き                               │\n└──────────────────────────────────────────────┘\n  \n \n データフロー \n ナレッジ更新 \n \n テンプレコピペ → Claude に依頼 \n Claude が  knowledge/*.md  を編集 \n  git commit  で差分記録 \n  ./build.sh  で  site/  を再生成 \n \n バトルデータ（将来） \n \n 仮想通貨先物API → リアルタイムデータ取得 \n Bot エンジンがトレード実行 \n バトル結果を  knowledge/  に記録 \n AI生成で演出画像/動画を生成 \n \n \n ファイル命名規則 \n \n  knowledge/ : 小文字スネークケース（例:  trading_system.md ） \n  docs/ : 小文字スネークケース \n  tools/ :  build_  プレフィックス + 言語名 \n  web/ : 標準的なWeb命名規則 \n \n"},{"slug":"docs-roadmap","title":"ロードマップ","tags":["roadmap","plan","milestone"],"text":" ロードマップ — CoinBattleSaki 開発計画 \n 最短結論 \n 4フェーズで段階的に構築。基盤整備 → プロトタイプ → 演出UI → 統合公開。 \n \n Phase 1: 基盤整備（現在） \n \n [x] ナレッジベース構築 \n [x] ビルドスクリプト整備 \n [ ] キャラクター設定の詳細化 \n [ ] データソース選定・接続検証 \n [ ] CI/CD パイプライン構築 \n \n Phase 2: プロトタイプ \n \n [ ] Bot エンジン基本実装 \n [ ] バトルロジック設計・実装 \n [ ] リアルタイムデータ取得 \n [ ] AI画像生成パイプライン \n [ ] バックテスト環境 \n \n Phase 3: 演出・UI \n \n [ ] パチンコ的演出エンジン \n [ ] ステージ背景自動生成 \n [ ] フロントエンドUI \n [ ] キャラクターアニメーション \n [ ] 動画生成AI連携 \n \n Phase 4: 統合・公開 \n \n [ ] 全システム統合テスト \n [ ] パフォーマンス最適化 \n [ ] コミュニティ公開準備 \n [ ] ドキュメント最終版 \n [ ] デプロイ自動化 \n \n"}];
+    // CoinBattleSaki Knowledge Base - Search & Navigation
+
+(function () {
+  "use strict";
+
+  // --- Navigation ---
+  function showPage(slug) {
+    // Hide all pages
+    document.querySelectorAll(".page-content").forEach(function (el) {
+      el.style.display = "none";
+    });
+    document.getElementById("welcome").style.display = "none";
+
+    // Show target page
+    var target = document.getElementById("page-" + slug);
+    if (target) {
+      target.style.display = "block";
+    }
+
+    // Update active link
+    document.querySelectorAll(".sidebar-link").forEach(function (link) {
+      link.classList.remove("active");
+      if (link.getAttribute("data-page") === slug) {
+        link.classList.add("active");
+      }
+    });
+
+    // Update URL hash
+    window.location.hash = slug;
+  }
+
+  // Sidebar click handlers
+  document.querySelectorAll(".sidebar-link").forEach(function (link) {
+    link.addEventListener("click", function (e) {
+      e.preventDefault();
+      showPage(this.getAttribute("data-page"));
+    });
+  });
+
+  // --- Search ---
+  var searchInput = document.getElementById("search-input");
+  var sidebarList = document.getElementById("sidebar-list");
+  var allItems = Array.from(sidebarList.querySelectorAll("li"));
+
+  if (searchInput) {
+    searchInput.addEventListener("input", function () {
+      var query = this.value.toLowerCase().trim();
+
+      if (!query) {
+        allItems.forEach(function (li) {
+          li.style.display = "";
+        });
+        return;
+      }
+
+      // Search through SEARCH_DATA
+      var matchingSlugs = {};
+      SEARCH_DATA.forEach(function (item) {
+        var matchTitle = item.title.toLowerCase().indexOf(query) !== -1;
+        var matchText = item.text.toLowerCase().indexOf(query) !== -1;
+        var matchTags = false;
+        if (Array.isArray(item.tags)) {
+          matchTags = item.tags.some(function (tag) {
+            return tag.toLowerCase().indexOf(query) !== -1;
+          });
+        }
+        if (matchTitle || matchText || matchTags) {
+          matchingSlugs[item.slug] = true;
+        }
+      });
+
+      // Show/hide sidebar items
+      allItems.forEach(function (li) {
+        var link = li.querySelector(".sidebar-link");
+        if (link) {
+          var slug = link.getAttribute("data-page");
+          li.style.display = matchingSlugs[slug] ? "" : "none";
+        }
+      });
+    });
+  }
+
+  // --- Hash navigation on load ---
+  if (window.location.hash) {
+    var slug = window.location.hash.substring(1);
+    showPage(slug);
+  }
+})();
+
+  </script>
+</body>
+</html>
