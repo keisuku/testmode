@@ -1,0 +1,13 @@
+{
+  "name": "coinbattlesaki-knowledgebase",
+  "version": "1.0.0",
+  "description": "CoinBattleSaki Markdown Knowledge Base with static site generator",
+  "scripts": {
+    "build": "node tools/build_node.js",
+    "dev": "node tools/build_node.js && echo 'Open site/index.html in your browser'"
+  },
+  "dependencies": {
+    "markdown-it": "^14.0.0"
+  },
+  "license": "MIT"
+}
