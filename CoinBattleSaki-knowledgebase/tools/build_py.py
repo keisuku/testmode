@@ -85,6 +85,15 @@ def build():
     search_path = os.path.join(WEB_DIR, "search.js")
     search_js = open(search_path, "r", encoding="utf-8").read() if os.path.exists(search_path) else ""
 
+    # Default page: saki-info
+    default_slug = ""
+    for p in pages:
+        if "saki-info" in p["slug"]:
+            default_slug = p["slug"]
+            break
+    if not default_slug and pages:
+        default_slug = pages[0]["slug"]
+
     # Build sidebar
     sidebar_items = []
     for p in pages:
@@ -93,19 +102,21 @@ def build():
         if isinstance(tags, list):
             tag_html = "".join(f'<span class="tag">{t}</span>' for t in tags)
         title = p["meta"].get("title", p["rel"])
+        active_class = "sidebar-link active" if p["slug"] == default_slug else "sidebar-link"
         sidebar_items.append(
-            f'<li><a href="#" data-page="{p["slug"]}" class="sidebar-link">{title}</a>'
+            f'<li><a href="#" data-page="{p["slug"]}" class="{active_class}">{title}</a>'
             f'<span class="tag-list">{tag_html}</span></li>'
         )
 
-    # Build page sections
+    # Build page sections (default page visible, others hidden)
     page_sections = []
     for p in pages:
+        display = "display:block;" if p["slug"] == default_slug else "display:none;"
         status = p["meta"].get("status", "draft")
         updated = p["meta"].get("updated", "N/A")
         author = p["meta"].get("author", "unknown")
         page_sections.append(
-            f'<section id="page-{p["slug"]}" class="page-content" style="display:none;">'
+            f'<section id="page-{p["slug"]}" class="page-content" style="{display}">'
             f'<div class="page-meta">'
             f'<span class="status status-{status}">{status}</span>'
             f'<span class="updated">Updated: {updated}</span>'
@@ -146,7 +157,7 @@ def build():
       </nav>
     </aside>
     <main class="main-content" id="main-content">
-      <div class="welcome" id="welcome">
+      <div class="welcome" id="welcome" style="display:none;">
         <h1>CoinBattleSaki Knowledge Base</h1>
         <p>左のサイドバーからページを選択してください。</p>
       </div>

@@ -78,23 +78,28 @@ function build() {
     ? fs.readFileSync(path.join(WEB_DIR, 'search.js'), 'utf-8')
     : '';
 
-  // Build sidebar items
-  const sidebarItems = pages.map(p =>
-    `<li><a href="#" data-page="${p.slug}" class="sidebar-link">${p.meta.title || p.rel}</a>
-     <span class="tag-list">${Array.isArray(p.meta.tags) ? p.meta.tags.map(t => `<span class="tag">${t}</span>`).join('') : ''}</span></li>`
-  ).join('\n');
+  // Default page: saki-info (first knowledge page with "saki-info" in slug)
+  const defaultSlug = (pages.find(p => p.slug.includes('saki-info')) || pages[0] || {}).slug || '';
 
-  // Build page sections
-  const pageSections = pages.map(p =>
-    `<section id="page-${p.slug}" class="page-content" style="display:none;">
+  // Build sidebar items
+  const sidebarItems = pages.map(p => {
+    const activeClass = p.slug === defaultSlug ? 'sidebar-link active' : 'sidebar-link';
+    return `<li><a href="#" data-page="${p.slug}" class="${activeClass}">${p.meta.title || p.rel}</a>
+     <span class="tag-list">${Array.isArray(p.meta.tags) ? p.meta.tags.map(t => `<span class="tag">${t}</span>`).join('') : ''}</span></li>`;
+  }).join('\n');
+
+  // Build page sections (default page is visible, others hidden)
+  const pageSections = pages.map(p => {
+    const display = p.slug === defaultSlug ? 'display:block;' : 'display:none;';
+    return `<section id="page-${p.slug}" class="page-content" style="${display}">
       <div class="page-meta">
         <span class="status status-${p.meta.status || 'draft'}">${p.meta.status || 'draft'}</span>
         <span class="updated">Updated: ${p.meta.updated || 'N/A'}</span>
         <span class="author">Author: ${p.meta.author || 'unknown'}</span>
       </div>
       ${p.html}
-    </section>`
-  ).join('\n');
+    </section>`;
+  }).join('\n');
 
   // Search data (JSON)
   const searchData = JSON.stringify(pages.map(p => ({
@@ -127,7 +132,7 @@ function build() {
       </nav>
     </aside>
     <main class="main-content" id="main-content">
-      <div class="welcome" id="welcome">
+      <div class="welcome" id="welcome" style="display:none;">
         <h1>CoinBattleSaki Knowledge Base</h1>
         <p>左のサイドバーからページを選択してください。</p>
       </div>
