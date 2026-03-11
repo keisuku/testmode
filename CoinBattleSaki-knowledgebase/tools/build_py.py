@@ -20,6 +20,7 @@ KNOWLEDGE_DIR = os.path.join(ROOT, "knowledge")
 DOCS_DIR = os.path.join(ROOT, "docs")
 WEB_DIR = os.path.join(ROOT, "web")
 SITE_DIR = os.path.join(ROOT, "site")
+REPO_ROOT = os.path.dirname(ROOT)
 
 
 def parse_frontmatter(content):
@@ -177,7 +178,11 @@ def build():
     with open(os.path.join(WEB_DIR, "index.html"), "w", encoding="utf-8") as fh:
         fh.write(index_html)
 
-    print(f"✅ Built {len(pages)} pages → site/index.html")
+    # Also write to repo root index.html (for GitHub Pages)
+    with open(os.path.join(REPO_ROOT, "index.html"), "w", encoding="utf-8") as fh:
+        fh.write(index_html)
+
+    print(f"✅ Built {len(pages)} pages → site/index.html + repo root index.html")
     for p in pages:
         print(f"  - {p['rel']} → #page-{p['slug']}")
 

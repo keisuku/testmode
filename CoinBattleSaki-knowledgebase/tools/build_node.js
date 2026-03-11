@@ -13,6 +13,7 @@ const KNOWLEDGE_DIR = path.join(ROOT, 'knowledge');
 const DOCS_DIR = path.join(ROOT, 'docs');
 const WEB_DIR = path.join(ROOT, 'web');
 const SITE_DIR = path.join(ROOT, 'site');
+const REPO_ROOT = path.resolve(ROOT, '..');
 
 const md = markdownIt({ html: true, linkify: true, typographer: true });
 
@@ -152,7 +153,11 @@ function build() {
   // Also copy to web/index.html
   fs.writeFileSync(path.join(WEB_DIR, 'index.html'), indexHTML, 'utf-8');
 
-  console.log(`✅ Built ${pages.length} pages → site/index.html`);
+  // Also write to repo root index.html (for GitHub Pages)
+  const repoRootIndex = path.join(REPO_ROOT, 'index.html');
+  fs.writeFileSync(repoRootIndex, indexHTML, 'utf-8');
+
+  console.log(`✅ Built ${pages.length} pages → site/index.html + repo root index.html`);
   console.log('Pages:');
   pages.forEach(p => console.log(`  - ${p.rel} → #page-${p.slug}`));
 }
